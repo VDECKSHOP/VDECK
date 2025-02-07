@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener("DOMContentLoaded", () => {
     loadProducts();
     renderCart(); // Render cart on page load
@@ -13,7 +11,7 @@ function loadProducts() {
     }
 
     const products = JSON.parse(localStorage.getItem("products")) || [];
-    console.log("📦 Products from localStorage:", products);
+    console.log("📦 Products from localStorage:", products); // Debugging
     renderProducts(products);
 }
 

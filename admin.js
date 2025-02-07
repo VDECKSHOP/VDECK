@@ -1,54 +1,28 @@
-// admin.js
-
 document.addEventListener("DOMContentLoaded", () => {
     let products = JSON.parse(localStorage.getItem("products")) || [];
     const productForm = document.getElementById("product-form");
     const productContainer = document.getElementById("product-list");
-
-    // Open IndexedDB
-    let db;
-    const request = indexedDB.open("ProductDB", 1);
-
-    request.onupgradeneeded = (event) => {
-        db = event.target.result;
-        if (!db.objectStoreNames.contains("products")) {
-            db.createObjectStore("products", { keyPath: "id", autoIncrement: true });
-        }
-    };
-
-    request.onsuccess = (event) => {
-        db = event.target.result;
-        renderProducts();
-    };
-
-    request.onerror = (event) => {
-        console.error("IndexedDB error:", event.target.error);
-    };
 
     // Render all products
     function renderProducts() {
         productContainer.innerHTML = "";
         products.forEach((product, index) => {
             const li = document.createElement("li");
-            getImageFromDB(product.id, (imageUrl) => {
-                li.innerHTML = `
-                    <img src="${imageUrl || 'default.jpg'}" alt="${product.name}" width="100">
-                    <div>
-                        <strong>${product.name}</strong> - ₱${product.price} (${product.category})
-                        <p>${product.description}</p>
-                    </div>
-                    <button onclick="editProduct(${index})">Edit</button>
-                    <button onclick="deleteProduct(${index})">Delete</button>
-                `;
-                productContainer.appendChild(li);
-            });
+            li.innerHTML = `
+                <img src="${product.images[0] || 'default.jpg'}" alt="${product.name}" width="100">
+                <div>
+                    <strong>${product.name}</strong> - ₱${product.price} (${product.category})
+                    <p>${product.description}</p>
+                </div>
+                <button onclick="editProduct(${index})">Edit</button>
+                <button onclick="deleteProduct(${index})">Delete</button>
+            `;
+            productContainer.appendChild(li);
         });
     }
 
     // Delete a product
     window.deleteProduct = (index) => {
-        const productId = products[index].id;
-        deleteImageFromDB(productId);
         products.splice(index, 1);
         localStorage.setItem("products", JSON.stringify(products));
         localStorage.setItem("productsUpdated", "true"); // Notify index.html
@@ -86,21 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
             name,
             price: parseFloat(price).toFixed(2),
             description,
-            category
+            category,
+            images: [URL.createObjectURL(mainImageFile)] // Store image URL
         };
 
         if (id !== "") {
-            products[parseInt(id)] = newProduct;
+            products[parseInt(id)] = newProduct; // Update existing product
         } else {
-            products.push(newProduct);
+            products.push(newProduct); // Add new product
         }
 
         // Store product details in localStorage
         localStorage.setItem("products", JSON.stringify(products));
         localStorage.setItem("productsUpdated", "true"); // Notify index.html
-
-        // Store image in IndexedDB
-        saveImageToDB(newProduct.id, mainImageFile);
 
         productForm.reset();
         document.getElementById("product-id").value = "";
@@ -108,33 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         renderProducts();
     });
 
-    // Save image to IndexedDB
-    function saveImageToDB(productId, imageFile) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            const transaction = db.transaction("products", "readwrite");
-            const store = transaction.objectStore("products");
-            store.put({ id: productId, image: event.target.result });
-        };
-        reader.readAsDataURL(imageFile);
-    }
-
-    // Get image from IndexedDB
-    function getImageFromDB(productId, callback) {
-        const transaction = db.transaction("products", "readonly");
-        const store = transaction.objectStore("products");
-        const request = store.get(productId);
-        request.onsuccess = () => {
-            callback(request.result ? request.result.image : null);
-        };
-    }
-
-    // Delete image from IndexedDB
-    function deleteImageFromDB(productId) {
-        const transaction = db.transaction("products", "readwrite");
-        const store = transaction.objectStore("products");
-        store.delete(productId);
-    }
+    // Render products on page load
+    renderProducts();
 });
-
 
