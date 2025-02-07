@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VDECK Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src= "logo 1.PNG" alt="VDECK Logo" class="logo-img">
+            <span class="logo-text">VDECK</span>
+
+            <!-- Hidden Admin Login -->
+            <a href="admin-login.html" class="admin-login">Admin Panel</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#products">Playing Cards</a></li>
+            <li><a href="#new-arrivals">New Arrivals</a></li>
+            <li><a href="#best-sellers">Best Sellers</a></li>
+            <li><a href="#order-form">Order Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="hero">
+        <video autoplay muted loop class="hero-video">
+            <source src="CINEMATIC POKER VIDEO - B ROLL.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Playing Cards for You</h1>
+            <p>Welcome to your premium card shop!</p>
+            <a href="#products" class="btn">Shop Now</a>
+        </div>
+    </header>
+
+    <!-- FEATURED PRODUCTS -->
+    <section id="products">
+        <h2>Our Products</h2>
+        
+        <div class="category-container">
+            <h3>Playing Cards</h3>
+            <div class="slider-wrapper" id="playing-cards"></div>
+        </div>
+
+        <div class="category-container">
+            <h3>Poker Chips</h3>
+            <div class="slider-wrapper" id="poker-chips"></div>
+        </div>
+
+        <div class="category-container">
+            <h3>Accessories</h3>
+            <div class="slider-wrapper" id="accessories"></div>
+        </div>
+    </section>
+
+    <!-- CART AND ORDER FORM SECTION -->
+    <div class="cart-order-container">
+        <!-- Cart Section -->
+        <div class="cart-section">
+            <h2>🛒 Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <p><strong>Total: ₱<span id="cart-total">0</span></strong></p>
+            <span id="cart-count" class="cart-counter">0</span>
+        </div>
+
+        <!-- Order Form -->
+        <div class="order-form">
+            <h2>📦 Complete Your Order</h2>
+            <form id="order-form">
+                <input type="text" id="fullname" placeholder="Full Name" required>
+                <input type="text" id="gcash" placeholder="GCash Number" required>
+                <input type="text" id="address" placeholder="Complete Address" required>
+                <textarea id="selected-product" placeholder="Items in Cart" readonly></textarea>
+                <input type="text" id="order-total" placeholder="Total Price" readonly>
+                <input type="file" id="payment-proof" required>
+                <button type="submit">Submit Order</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

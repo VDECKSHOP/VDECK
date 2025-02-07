@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <link rel="stylesheet" href="admin-style.css"> <!-- ✅ Correct CSS file -->
+</head>
+
+<body>
+
+    <div class="login-container">
+        <!-- Left Side: Logo and Branding -->
+        <div class="login-left">
+            <img src= "logo 1.PNG" alt="VDECK Logo" class="login-logo">
+            <h2>VDECK</h2>
+        </div>
+
+        <!-- Right Side: Login Form -->
+        <div class="login-right">
+            <h2>Welcome</h2>
+            <p>Please login to access the admin panel.</p>
+            <form id="login-form">
+                <input type="text" id="userid" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <p id="error-message" style="color: red; display: none;">Invalid credentials!</p>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-auth.js"></script>
+</body>
+</html>
